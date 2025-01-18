@@ -1,10 +1,10 @@
 # [level 4] 가사 검색 - 60060 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60060) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60060?language=java) 
 
 ### 성능 요약
 
-메모리: 785 MB, 시간: 5140.28 ms
+메모리: 506 MB, 시간: 676.09 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 01월 15일 10:28:21
+2025년 01월 18일 21:30:20
 
 ### 문제 설명
 
