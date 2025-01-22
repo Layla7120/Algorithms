@@ -5,8 +5,8 @@ class Solution {
         Puzzle puzzle = new Puzzle(diffs, times, limit);
         int left = Arrays.stream(diffs).min().getAsInt();
         int right = Arrays.stream(diffs).max().getAsInt();
-        int mid = (int) (left + right) / 2;
-        long total_time = limit + 1;
+        int mid = (left + right) / 2;
+        long total_time;
         
         while (left < mid){
             total_time = 0;
@@ -19,7 +19,7 @@ class Solution {
             else{
                 right = mid;
             }
-            mid = (int) (left + right) / 2;
+            mid = (left + right) / 2;
         }
         
         
@@ -52,6 +52,4 @@ class Solution {
             }
         }
     }
-
-
 }
