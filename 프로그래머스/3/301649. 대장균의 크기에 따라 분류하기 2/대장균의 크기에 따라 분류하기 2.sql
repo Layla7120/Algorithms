@@ -1,0 +1,13 @@
+WITH RANK_RESULT AS (
+    SELECT ID, NTILE(4) OVER (ORDER BY SIZE_OF_COLONY DESC) AS Ranks
+    FROM ECOLI_DATA
+    )
+SELECT ID,
+       CASE 
+            WHEN Ranks = 1 THEN 'CRITICAL'
+            WHEN Ranks = 2 THEN 'HIGH'
+            WHEN Ranks = 3 THEN 'MEDIUM'
+            WHEN Ranks = 4 THEN 'LOW'
+        END AS COLONY_NAME
+FROM RANK_RESULT
+ORDER BY ID;
