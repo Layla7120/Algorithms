@@ -46,7 +46,7 @@ class Solution {
         int additionalTime = fees[2];
         int additionalFee = fees[3];
         
-        if(n < BaseTime)
+        if(n <= BaseTime)
             return BaseFee;
         
         return BaseFee + (int)(Math.ceil((double)(n - BaseTime) / additionalTime)) * additionalFee;
