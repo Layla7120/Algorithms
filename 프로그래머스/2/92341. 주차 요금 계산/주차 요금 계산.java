@@ -4,8 +4,7 @@ class Solution {
     public int[] solution(int[] fees, String[] records) {
         
         Map<String, Integer> history = new HashMap<>();
-        Map<String, Integer> total_time = new HashMap<>();
-        Set<String> car_nums = new HashSet<>();
+        Map<String, Integer> total_time = new TreeMap<>();
         
         for(String record: records){
             String[] r = record.split(" ");
@@ -16,7 +15,6 @@ class Solution {
             if(r[2].equals("IN")){
                 history.put(carNum, t);
                 total_time.putIfAbsent(carNum, 0);
-                car_nums.add(carNum);
             } else {
                 int t_in = history.remove(carNum);
                 total_time.put(carNum, (t-t_in) + total_time.get(carNum));
@@ -28,13 +26,11 @@ class Solution {
             total_time.put(car, (1439-t_in) + total_time.get(car));    
         }
         
-        String[] car_Arr = car_nums.toArray(new String[0]);
-        Arrays.sort(car_Arr);
-        
-        int[] answer = new int[car_Arr.length];
-        for(int i=0; i<car_Arr.length; i++){
-            int total_fee = getFee(total_time.get(car_Arr[i]), fees);
-            answer[i] = total_fee;
+        int[] answer = new int[total_time.size()];
+        int i=0;
+        for(String car: total_time.keySet()){
+            int total_fee = getFee(total_time.get(car), fees);
+            answer[i++] = total_fee;
         }
         
         return answer;
@@ -53,8 +49,8 @@ class Solution {
     }
     
     private static int changeToMinute(String word){
-        int[] arr = Arrays.stream(word.split(":")).mapToInt(Integer::parseInt).toArray();
+        String[] arr = word.split(":");
         
-        return arr[0] * 60 + arr[1];
+        return Integer.parseInt(arr[0]) * 60 + Integer.parseInt(arr[1]);
     }
 }
