@@ -15,23 +15,23 @@ class Solution {
         
         store = new char[N+2][M+2];
         
-        // char 배열로 변경하여 성능 향상
-        for(int i=1; i<=N; i++){
-            for(int j=1; j<=M; j++){
+        
+        for(int i=1; i<N+1; i++){
+            for(int j=1; j<M+1; j++){
                 store[i][j] = storage[i-1].charAt(j-1);
             }
         }
         
         for(int i=0; i<requests.length; i++){
             String str = requests[i];
-            char target = str.charAt(0);
             
             if(str.length() == 2 && str.charAt(0) == str.charAt(1)){
-                answer -= getAll(target);
+                answer -= getAll(str.charAt(0));
             } else {
                 cleanUp();
-                answer -= getOutside(target);
+                answer -= getOutside(str.charAt(0));
             }
+            // printBoard(store);
         }
         
         return answer;
@@ -39,14 +39,14 @@ class Solution {
     
     private static int getOutside(char word){
         int total = 0;
+    
         
-        // 배열 복사 제거, 직접 수정
         for(int i=1; i<=N; i++){
             for(int j=1; j<=M; j++){
                 if(store[i][j] == word && check(i, j)){
                     total++;
                     store[i][j] = '0';
-                }
+                } 
             }
         }
         
@@ -56,27 +56,25 @@ class Solution {
     private static void cleanUp(){
         Queue<int[]> q = new LinkedList<>();
         q.add(new int[]{0, 0});
-        boolean[][] visited = new boolean[N+2][M+2];
+        int[][] visited = new int[N+2][M+2];
         
         while(!q.isEmpty()){
             int[] arr = q.poll();
+            
             int x = arr[0];
             int y = arr[1];
-            
-            if(visited[x][y]) continue;
-            visited[x][y] = true;
-            
-            if(store[x][y] != 0 && store[x][y] != '0') continue;
-            store[x][y] = 0;
+            if(visited[x][y] == 1) continue;
+            visited[x][y] = 1;
             
             for(int i=0; i<4; i++){
                 int nx = x+dx[i];
                 int ny = y+dy[i];
+                if(inRange(nx, ny) && visited[nx][ny] == 1)
+                    continue;
                 
-                if(inRange(nx, ny) && !visited[nx][ny]){
-                    if(store[nx][ny] == '0' || store[nx][ny] == 0){
-                        q.add(new int[]{nx, ny});
-                    }
+                if(inRange(nx, ny) && (store[nx][ny] == '0' || store[nx][ny] == 0)){
+                    store[nx][ny] = 0;
+                    q.add(new int[]{nx, ny});
                 }
             }
         }
@@ -92,6 +90,7 @@ class Solution {
                 return true;
             }
         }
+        
         return false;
     }
     
@@ -105,6 +104,17 @@ class Solution {
                 }
             }
         }
+        
         return total;
+    }
+    
+    private static void printBoard(String[][] board){
+        System.out.println();
+        for(int i=1; i<=N; i++){
+            for(int j=1; j<=M; j++){
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
