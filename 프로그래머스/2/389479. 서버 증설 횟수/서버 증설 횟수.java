@@ -6,14 +6,10 @@ class Solution {
         int answer = 0;
         int servers = 0;
         
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] expire = new int[50];
         
         for(int i=0; i<24; i++){
-            map.put(i, 0);
-        }
-        
-        for(int i=0; i<24; i++){
-            int reduceServer = map.get(i);
+            int reduceServer = expire[i];
             servers -= reduceServer;
             
             int users = players[i];
@@ -21,7 +17,7 @@ class Solution {
             int needed = checkServerCount(users, servers, m);
             answer += needed;
             servers += needed;
-            map.put(i+k, needed);
+            expire[i+k] = needed;
         }
         
         return answer;
