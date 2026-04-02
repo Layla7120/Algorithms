@@ -28,13 +28,6 @@ public class Main {
 
     DFS(0, board);
 
-    // for (int i = 0; i < N; i++) {
-    // for (int j = 0; j < N; j++) {
-    // System.out.print(board[i][j]);
-    // }
-    // System.out.println();
-    // }
-
     System.out.println(MaxNum);
   }
 
@@ -54,7 +47,7 @@ public class Main {
         copiedBoard[j] = board[j].clone();
       }
 
-      copiedBoard = pushUp(copiedBoard);
+      pushUp(copiedBoard);
       DFS(count + 1, copiedBoard);
       board = turn90(board);
     }
@@ -74,7 +67,7 @@ public class Main {
   }
 
   // UP 함수
-  public static int[][] pushUp(int[][] board) {
+  public static void pushUp(int[][] board) {
     for (int col = 0; col < N; col++) {
       ArrayDeque<Integer> q = new ArrayDeque<>();
       for (int row = 0; row < N; row++) {
@@ -101,6 +94,5 @@ public class Main {
         }
       }
     }
-    return board;
   }
 }
