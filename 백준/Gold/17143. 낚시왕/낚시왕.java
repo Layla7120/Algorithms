@@ -100,7 +100,10 @@ public class Main {
 	}
 	
 	public static Shark moveUpDown(Shark s) {
-		for(int i=0; i<s.s; i++) {
+		
+		int count = s.s % ((R - 1) * 2);
+		
+		for(int i=0; i<count; i++) {
 			int nr = s.r + dr[s.d];
 			if(nr < 1 || nr > R) {
 				s.d = bounceDir(s.d);
@@ -112,7 +115,10 @@ public class Main {
 	}
 	
 	public static Shark moveSide(Shark s) {
-		for(int i=0; i<s.s; i++) {
+		
+		int count = s.s % ((C - 1) * 2);
+		
+		for(int i=0; i<count; i++) {
 			int nc = s.c + dc[s.d];
 			if(nc < 1 || nc > C) {
 				s.d = bounceDir(s.d);
