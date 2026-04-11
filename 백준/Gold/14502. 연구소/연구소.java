@@ -36,11 +36,12 @@ public class Main {
 			}
 		}
 		
-		DFS(0);
+		DFS(0, 0);
 		System.out.println(answer);
 	}
 	
-	public static int[][] spread(int[][] newboard){
+	public static int spread(int[][] newboard){
+		int count = 0;
 		Deque<int[]> q = new ArrayDeque<>();
 		for(int i=0; i<virus.size(); i++) {
 			q.add(virus.get(i));
@@ -56,11 +57,12 @@ public class Main {
 				if(check(nr, nc) && newboard[nr][nc] == 0) {
 					newboard[nr][nc] = 2;
 					q.add(new int[] {nr, nc});
+					count++;
 				}
 			}
 		}
 		
-		return newboard;
+		return count;
 		
 	}
 	public static int safeplace() {
@@ -69,37 +71,31 @@ public class Main {
 			newboard[i] = board[i].clone();
 		}
 		
-		newboard = spread(newboard);
+		int newInfectedCount = spread(newboard);
 		
-		int safespace = 0;
-		
-		for(int r=0; r<N; r++) {
-			for(int c=0; c<M; c++){
-				if(newboard[r][c] == 0) {
-					safespace++;
-				}
-			}
-		}
+		int safespace = space - 3 - newInfectedCount;
 		
 		return safespace;
+
 	}
 
 	
-	public static void DFS(int count) {
+	public static void DFS(int count, int idx) {
 		if(count == 3) {
 			int safespace = safeplace();
 			if(safespace > 0)
-				answer = Math.max(answer, safeplace());
+				answer = Math.max(answer, safespace);
 			return;
 		}
 		
-		for(int r=0; r<N; r++) {
-			for(int c=0; c<M; c++){
-				if(board[r][c] == 0) {
-					board[r][c] = 1;
-					DFS(count + 1);
-					board[r][c] = 0;
-				}
+		for(int i = idx; i < N * M; i++) {
+	        int r = i / M;
+	        int c = i % M;
+	        
+			if(board[r][c] == 0) {
+				board[r][c] = 1;
+				DFS(count + 1, i+1);
+				board[r][c] = 0;
 			}
 		}
 	}
