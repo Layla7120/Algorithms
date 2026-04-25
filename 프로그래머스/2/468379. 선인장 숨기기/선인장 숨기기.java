@@ -41,6 +41,8 @@ class Solution {
             }
         }
         
+        int maxVal = -1;
+        int ansR = 0, ansC = 0;
         
         for(int c = 0; c < n; c++){
             int[] deque = new int[m];
@@ -58,21 +60,29 @@ class Solution {
                     head++;
                 }
                 
+                // 윈도우가 완성된 즉시 최댓값 갱신 (메모리에 배열 C를 쌓지 않음)
                 if (r >= h - 1) {
-                    C[r - h + 1][c] = R[deque[head]][c];
+                    int currentMin = R[deque[head]][c];
+                    int currentR = r - h + 1;
+                    int currentC = c;
+                    
+                    if (currentMin > maxVal) {
+                        maxVal = currentMin;
+                        ansR = currentR;
+                        ansC = currentC;
+                    } else if (currentMin == maxVal) {
+                        // Tie-breaking: 행이 작거나, 행이 같으면 열이 작은 것
+                        // 세로로 돌기 때문에 필요한 분기
+                        if (currentR < ansR || (currentR == ansR && currentC < ansC)) {
+                            ansR = currentR;
+                            ansC = currentC;
+                        }
+                    }
                 }
             }
         }
         
-        for(int r=0; r<m; r++){
-            for(int c=0; c<n; c++){
-                if(C[r][c] > C[answer[0]][answer[1]]){
-                    answer = new int[]{r, c};
-                }
-            }
-        }
         
-        
-        return answer;
+        return new int[]{ansR, ansC};
     }
 }
