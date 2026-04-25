@@ -2,20 +2,16 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    
-    public static int[][] cost_g, hint_g;
-    public static int n;
-    public static Map<String, Integer> memo;
+    static int[][] cost_g, hint_g;
+    static int n;
+    static Map<String, Integer> memo;
     
     public int solution(int[][] cost, int[][] hint) {
-        int answer = 0;
-        
         cost_g = cost;
         hint_g = hint;
-        n = cost.length;
-
-        memo = new HashMap<>();
         
+        n = cost.length;
+        memo = new HashMap<>();
         
         return solve(0, new int[n]);
     }
@@ -24,26 +20,23 @@ class Solution {
         if(stage == n) return 0;
         
         String key = stage + Arrays.toString(inventory);
-        
         if(memo.containsKey(key)) return memo.get(key);
         
-        int useHintMinCost = Math.min(inventory[stage], n-1);
-        int costs = cost_g[stage][useHintMinCost];
+        int minHint = Math.min(n-1, inventory[stage]);
+        int minCost = cost_g[stage][minHint];
         
-        int res = costs + solve(stage + 1, inventory);
+        int res = minCost + solve(stage + 1, inventory);
         
-        if(stage < n - 1){
-            int[] newInventory = inventory.clone();
-            
+        int[] new_inventory = inventory.clone();
+        if(stage < n-1){
             for(int h=1; h<hint_g[stage].length; h++){
-                newInventory[hint_g[stage][h]-1]++;
+                new_inventory[hint_g[stage][h]-1]++;
             }
-            
-            res = Math.min(res, costs + hint_g[stage][0] + solve(stage + 1, newInventory));
+
+            res = Math.min(res, minCost + hint_g[stage][0] + solve(stage + 1, new_inventory));
         }
         
         memo.put(key, res);
         return res;
     }
-    
 }
