@@ -1,56 +1,50 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] fees, String[] records) {
+    public ArrayList<Integer> solution(int[] fees, String[] records) {
+        ArrayList<Integer> answer = new ArrayList<>();
         
-        Map<String, Integer> history = new HashMap<>();
-        Map<String, Integer> total_time = new TreeMap<>();
+        int max_time = 23 * 60 + 59;
+        
+        int default_time = fees[0];
+        int default_fee = fees[1];
+        double time_unit = fees[2];
+        int time_fee = fees[3];
+        
+        Map<String, int[]> map = new TreeMap<>(); 
         
         for(String record: records){
-            String[] r = record.split(" ");
-            int t = changeToMinute(r[0]);
+            String[] arr = record.split(" "); // "05:34 5961 IN"
             
-            String carNum = r[1];
+            String[] time_string = arr[0].split(":");
+            int time = Integer.parseInt(time_string[0]) * 60 + Integer.parseInt(time_string[1]);
             
-            if(r[2].equals("IN")){
-                history.put(carNum, t);
-                total_time.putIfAbsent(carNum, 0);
+            map.putIfAbsent(arr[1], new int[2]);
+            
+            if(arr[2].equals("IN")){
+                map.get(arr[1])[0] = time;
             } else {
-                int t_in = history.remove(carNum);
-                total_time.put(carNum, (t-t_in) + total_time.get(carNum));
+                int past = map.get(arr[1])[0];
+                map.get(arr[1])[1] += time - past; 
+                map.get(arr[1])[0] = 0;
             }
         }
         
-        for(String car: history.keySet()){
-            int t_in = history.get(car);
-            total_time.put(car, (1439-t_in) + total_time.get(car));    
-        }
+        Set<String> map_key = map.keySet();
         
-        int[] answer = new int[total_time.size()];
-        int i=0;
-        for(String car: total_time.keySet()){
-            int total_fee = getFee(total_time.get(car), fees);
-            answer[i++] = total_fee;
+        for(String key: map_key){
+            System.out.println(key);
+            if(map.get(key)[0] != 0 || map.get(key)[1] == 0){
+                map.get(key)[1] += max_time - map.get(key)[0]; 
+            }
+            int total_time = map.get(key)[1];
+            int fee = default_fee;
+            if(total_time > default_time)
+            {
+                fee = default_fee + (int) Math.ceil((total_time - default_time) / time_unit) * time_fee;
+            }
+            answer.add(fee);
         }
-        
         return answer;
-    }
-    
-    private static int getFee(int n, int[] fees){
-        int BaseTime = fees[0];
-        int BaseFee = fees[1];
-        int additionalTime = fees[2];
-        int additionalFee = fees[3];
-        
-        if(n <= BaseTime)
-            return BaseFee;
-        
-        return BaseFee + (int)(Math.ceil((double)(n - BaseTime) / additionalTime)) * additionalFee;
-    }
-    
-    private static int changeToMinute(String word){
-        String[] arr = word.split(":");
-        
-        return Integer.parseInt(arr[0]) * 60 + Integer.parseInt(arr[1]);
     }
 }
