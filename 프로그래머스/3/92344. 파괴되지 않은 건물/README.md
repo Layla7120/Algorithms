@@ -2,6 +2,15 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344?language=java&gad_source=1&gad_campaignid=23037984604&gbraid=0AAAAAC_c4nBYfKLUF3Z553FW5p7UqacGP&gclid=CjwKCAjwtcHPBhADEiwAWo3sJhSiYKfmq6VDD5iAN014MyW170CcBmsdPyFxEeYyJjxpfdLI22FsLxoC6qYQAvD_BwE) 
 
+**이오스법**
+
+좌표를 
+$(r1, c1)$ (좌상), $(r2, c2)$ (우하)라고 할 때:
+
+시작: $(r1, c1) \rightarrow +n$ 가로 끝: $(r1, c2+1) \rightarrow -n$ 
+
+세로 끝: $(r2+1, c1) \rightarrow -n$   대각선 끝(보정): $(r2+1, c2+1) \rightarrow +n$
+
 ### 성능 요약
 
 메모리: 216 MB, 시간: 66.85 ms
