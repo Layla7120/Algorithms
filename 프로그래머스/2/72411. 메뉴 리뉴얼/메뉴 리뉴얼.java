@@ -2,63 +2,52 @@ import java.util.*;
 
 class Solution {
     static HashMap<String, Integer> map = new HashMap<>();
-    static HashMap<Integer, ArrayList<String>> lengthMap = new HashMap<>();
     
     public ArrayList<String> solution(String[] orders, int[] course) {
-        map.clear();
-        lengthMap.clear();
+        
         ArrayList<String> answer = new ArrayList<>();
         
-        for(String order: orders){
-            char[] arr = order.toCharArray();
-            
-            Arrays.sort(arr);
-            
-            recursion(0, new StringBuilder(), arr, new HashSet<>());
-        }
-        
-        Object[] arr = map.keySet().toArray();
-        Arrays.sort(arr);
-        
         for(int i=0; i<course.length; i++){
-            int count = course[i];
-            ArrayList<String> newarr = lengthMap.getOrDefault(count, new ArrayList<>());
+            map.clear();
+            int targetLen = course[i];
+            
+            for(String order: orders){
+                char[] arr = order.toCharArray();
+                Arrays.sort(arr);
+                recursion(0, new StringBuilder(), arr, targetLen);
+            }
+            
             int maxNum = 2;
-            ArrayList<String> target = new ArrayList<>();
-            for(String na : newarr){
-                int na_count = map.get(na);
-                if(map.get(na) > maxNum){
-                    maxNum = map.get(na);
-                    target.clear();
-                    target.add(na);
-                } else if(map.get(na) == maxNum){
-                    target.add(na);
+            ArrayList<String> temp = new ArrayList<>();
+            for(String s : map.keySet().toArray(new String[0])){
+                int count = map.get(s);
+                if(count > maxNum){
+                    maxNum = count;
+                    temp.clear();
+                    temp.add(s);
+                } else if(count == maxNum){
+                    temp.add(s);
                 }
             }
-            answer.addAll(target);
+            answer.addAll(temp);
         }
+        
         
         Collections.sort(answer);
         return answer;
     }
     
-    public void recursion(int idx, StringBuilder sb, char[] arr, Set<String> visited){
-        if(idx == arr.length){
+    public void recursion(int idx, StringBuilder sb, char[] arr, int targetLen){
+        if(sb.length() == targetLen){
             String str = sb.toString();
-            if(visited.contains(str)) return;
-            visited.add(str);
             Integer count = map.getOrDefault(str, 0);
-            ArrayList<String> arrList = lengthMap.getOrDefault(str.length(), new ArrayList<String>());
             map.put(str, count+1);
-            if(!arrList.contains(str)) arrList.add(str);
-            lengthMap.put(str.length(), arrList);
             return;
         }
         
         for (int i = idx; i < arr.length; i++) {
-            recursion(i+1, sb, arr, visited);
             sb.append(arr[i]);           
-            recursion(i+1, sb, arr, visited); 
+            recursion(i+1, sb, arr, targetLen); 
             sb.deleteCharAt(sb.length() - 1); 
         }
     }
