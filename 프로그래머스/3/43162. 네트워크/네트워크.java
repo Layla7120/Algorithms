@@ -10,25 +10,25 @@ class Solution {
             computers_parent[i] = i+1;
         }
         
-        
         for(int i=0; i<computers.length; i++){
             int parent = n+1;
             
             for(int j=0; j<computers[i].length; j++){
                 if(computers[i][j] == 1){
-                    parent = Math.min(parent, computers_parent[j]);
+                    parent = Math.min(parent, find_parent(j, computers_parent));
                 }
             }
             
             for(int j=0; j<computers[i].length; j++){
                 if(computers[i][j] == 1){
+                    computers_parent[computers_parent[j]-1] = parent;
                     computers_parent[j] = parent;
                 }
             }
-        }
-        
-        for(int i=n-1; i>=0; i--){
-            computers_parent[i] = find_parent(i, computers_parent);
+            
+            for(int k=n-1; k>=0; k--){
+                computers_parent[k] = find_parent(k, computers_parent);
+            }
         }
         
         System.out.println(Arrays.toString(computers_parent));
