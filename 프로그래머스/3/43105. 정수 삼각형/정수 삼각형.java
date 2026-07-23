@@ -1,29 +1,23 @@
+import java.util.*;
+
 class Solution {
-    static int N;
-    static int[][] tri;
-    
     public int solution(int[][] triangle) {
-        N = triangle.length;
-        tri = triangle;
+        int answer = 0;
         
-        return Find();
-    }
+        int[][] dp = new int[triangle.length][triangle.length];
+        dp[0][0] = triangle[0][0];
     
-    
-    private static int Find(){
-        int[][] dp = new int[N][N];
-        dp[0][0] = tri[0][0];
-        
-        for(int i=0; i<tri.length-1; i++){
-            for(int j=0; j<tri[i].length; j++){
-                dp[i+1][j] = Math.max(dp[i+1][j], dp[i][j] + tri[i+1][j]);
-                dp[i+1][j+1] = Math.max(dp[i+1][j+1], dp[i][j] + tri[i+1][j+1]);
+        for(int i=0; i<triangle.length-1; i++){
+            for(int j=0; j<triangle[i].length; j++){
+                dp[i+1][j] = Math.max(dp[i+1][j], dp[i][j] + triangle[i+1][j]);
+                dp[i+1][j+1] = Math.max(dp[i+1][j+1], dp[i][j] + triangle[i+1][j+1]);
             }
         }
         
-        int answer = 0;
-        for(int i=1; i<tri.length; i++){
-            answer = Math.max(answer, dp[tri.length - 1][i]);
+        int last_row = triangle.length-1;
+        
+        for(int i=0; i<triangle[last_row].length; i++){
+            answer = Math.max(answer, dp[last_row][i]);
         }
         
         return answer;
