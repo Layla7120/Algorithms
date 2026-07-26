@@ -14,10 +14,9 @@ class Solution {
         boolean[][] visited = new boolean[n][m];
         int[][] board = new int[n][m];
         
+        
         for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                board[i][j] = Integer.MAX_VALUE;
-            }
+            Arrays.fill(board[i], Integer.MAX_VALUE);
         }
         
         Queue<int[]> q = new LinkedList<>();
