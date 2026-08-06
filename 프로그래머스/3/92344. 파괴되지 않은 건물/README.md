@@ -1,19 +1,10 @@
 # [level 3] 파괴되지 않은 건물 - 92344 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344?language=java&gad_source=1&gad_campaignid=23037984604&gbraid=0AAAAAC_c4nBYfKLUF3Z553FW5p7UqacGP&gclid=CjwKCAjwtcHPBhADEiwAWo3sJhSiYKfmq6VDD5iAN014MyW170CcBmsdPyFxEeYyJjxpfdLI22FsLxoC6qYQAvD_BwE) 
-
-**이오스법**
-
-좌표를 
-$(r1, c1)$ (좌상), $(r2, c2)$ (우하)라고 할 때:
-
-시작: $(r1, c1) \rightarrow +n$ 가로 끝: $(r1, c2+1) \rightarrow -n$ 
-
-세로 끝: $(r2+1, c1) \rightarrow -n$   대각선 끝(보정): $(r2+1, c2+1) \rightarrow +n$
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344?gad_source=1&gad_campaignid=23716289893&gbraid=0AAAAAC_c4nCN6C4IOdCBy8W3-VutZG3nU&gclid=CjwKCAjwvsvTBhBaEiwAmf-3nn5PDURKjjoOSr9_r9cGjRc2aiaEXefyA75Ksp27kQibX0ZAvy9jeRoCvGIQAvD_BwE) 
 
 ### 성능 요약
 
-메모리: 216 MB, 시간: 66.85 ms
+메모리: 180 MB, 시간: 26.10 ms
 
 ### 구분
 
@@ -25,7 +16,7 @@ $(r1, c1)$ (좌상), $(r2, c2)$ (우하)라고 할 때:
 
 ### 제출 일자
 
-2026년 04월 29일 10:19:09
+2026년 08월 06일 11:14:55
 
 ### 문제 설명
 
