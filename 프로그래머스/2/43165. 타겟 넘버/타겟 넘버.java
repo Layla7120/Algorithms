@@ -1,25 +1,18 @@
 class Solution {
-    static int answer, target_g;
-    static int[] numbers_g;
-    
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        answer = 0;
-        target_g = target;
-        numbers_g = numbers;
-        
-        choose(0, 0);
-        
+        choose(0, 0, numbers, target);
         return answer;
     }
     
-    public static void choose(int count, int total){
-        if(count == numbers_g.length){
-            if(total == target_g)
+    public static void choose(int idx, int acc, int[] numbers, int target){
+        if(idx == numbers.length){
+            if(acc == target)
                 answer++;
             return;
         }
         
-        choose(count + 1, total+numbers_g[count]);
-        choose(count + 1, total-numbers_g[count]);
+        choose(idx+1, acc + numbers[idx], numbers, target);
+        choose(idx+1, acc - numbers[idx], numbers, target);
     }
 }
