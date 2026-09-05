@@ -1,50 +1,50 @@
 import java.util.*;
 
 class Solution {
-    public ArrayList<Integer> solution(int[] fees, String[] records) {
-        ArrayList<Integer> answer = new ArrayList<>();
-        
-        int max_time = 23 * 60 + 59;
+    public int[] solution(int[] fees, String[] records) {
         
         int default_time = fees[0];
         int default_fee = fees[1];
-        double time_unit = fees[2];
-        int time_fee = fees[3];
+        float unit_time = fees[2];
+        int unit_fee = fees[3];
         
-        Map<String, int[]> map = new TreeMap<>(); 
+        Map<String, Deque<Integer>> map = new HashMap<>();
         
-        for(String record: records){
-            String[] arr = record.split(" "); // "05:34 5961 IN"
+        for(int i=0; i<records.length; i++){
+            String[] record = records[i].split(" ");
+            int time = changeTime(record[0]);
+            String car_num = record[1];
+            map.putIfAbsent(car_num, new ArrayDeque<>());
             
-            String[] time_string = arr[0].split(":");
-            int time = Integer.parseInt(time_string[0]) * 60 + Integer.parseInt(time_string[1]);
-            
-            map.putIfAbsent(arr[1], new int[2]);
-            
-            if(arr[2].equals("IN")){
-                map.get(arr[1])[0] = time;
-            } else {
-                int past = map.get(arr[1])[0];
-                map.get(arr[1])[1] += time - past; 
-                map.get(arr[1])[0] = 0;
-            }
+            map.get(car_num).push(time);
         }
         
-        Set<String> map_key = map.keySet();
+        String[] car_nums = map.keySet().toArray(new String[0]);
+        Arrays.sort(car_nums);
+        int[] answer = new int[car_nums.length];
         
-        for(String key: map_key){
-            System.out.println(key);
-            if(map.get(key)[0] != 0 || map.get(key)[1] == 0){
-                map.get(key)[1] += max_time - map.get(key)[0]; 
+        for(int car=0; car < car_nums.length; car++){
+            Deque<Integer> record = map.get(car_nums[car]);
+            if(record.size() % 2 != 0) record.push(23*60 + 59);
+            int acc_time = 0;
+            
+            while(!record.isEmpty()){
+                int n1 = record.pop();
+                int n2 = record.pop();
+                
+                acc_time += (n1 - n2);
             }
-            int total_time = map.get(key)[1];
-            int fee = default_fee;
-            if(total_time > default_time)
-            {
-                fee = default_fee + (int) Math.ceil((total_time - default_time) / time_unit) * time_fee;
+            
+            answer[car] = default_fee;
+            if(acc_time > default_time){
+                answer[car] += Math.ceil((acc_time - default_time)/unit_time + 0.0) * unit_fee;
             }
-            answer.add(fee);
         }
         return answer;
+    }
+    
+    private int changeTime(String time_S){
+        String[] t = time_S.split(":");
+        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
     }
 }
