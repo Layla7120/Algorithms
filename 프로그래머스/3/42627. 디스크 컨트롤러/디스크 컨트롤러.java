@@ -14,14 +14,14 @@ class Job implements Comparable<Job>{
     @Override
     public int compareTo(Job o){
         if(this.duration != o.duration){
-            return this.duration - o.duration;
+            return Integer.compare(this.duration, o.duration);
         }
         
         if(this.start != o.start){
-            return this.start - o.start;
+            return Integer.compare(this.start, o.start);
         }
         
-        return this.index - o.index;
+        return Integer.compare(this.index, o.index);
     }
 }
 
@@ -45,11 +45,9 @@ class Solution {
             
             if(!pq.isEmpty()){
                 Job j = pq.peek();
-                if(j.start <= time){
-                    answer += time + j.duration - j.start;
-                    time += j.duration;
-                    pq.poll();
-                }
+                answer += time + j.duration - j.start;
+                time += j.duration;
+                pq.poll();
             } else {
                 time = jobs[job_idx][0];
             }
@@ -57,11 +55,9 @@ class Solution {
         
         while(!pq.isEmpty()){
             Job j = pq.peek();
-            if(j.start <= time){
-                answer += time + j.duration - j.start;
-                time += j.duration;
-                pq.poll();
-            }
+            answer += time + j.duration - j.start;
+            time += j.duration;
+            pq.poll();
         }
         
         return answer / count;
