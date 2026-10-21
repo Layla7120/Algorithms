@@ -44,20 +44,18 @@ class Solution {
             }
             
             if(!pq.isEmpty()){
-                Job j = pq.peek();
+                Job j = pq.poll();
                 answer += time + j.duration - j.start;
                 time += j.duration;
-                pq.poll();
             } else {
                 time = jobs[job_idx][0];
             }
         }
         
         while(!pq.isEmpty()){
-            Job j = pq.peek();
+            Job j = pq.poll();
             answer += time + j.duration - j.start;
             time += j.duration;
-            pq.poll();
         }
         
         return answer / count;
