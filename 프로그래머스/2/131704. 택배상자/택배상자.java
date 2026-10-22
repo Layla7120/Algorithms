@@ -3,31 +3,33 @@ import java.util.*;
 class Solution {
     public int solution(int[] order) {
         int answer = 0;
-        int n = order.length;
         int idx = 0;
-        int container_box_idx = 1;
-        Deque<Integer> stack = new ArrayDeque<>();
         
-        while(container_box_idx <= n){
-            if(order[idx] == container_box_idx){
-                answer++;
-                idx++;
-                container_box_idx++;
-            } else if(!stack.isEmpty() && stack.peek() == order[idx]){
-                stack.pop();
+        Deque<Integer> dq = new ArrayDeque<>();
+        
+        for(int i=1; i<=order.length; i++){
+            if(i == order[idx]){
                 answer++;
                 idx++;
             } else {
-                stack.push(container_box_idx);
-                container_box_idx++;
+                 while(!dq.isEmpty()){
+                    if(dq.peek() == order[idx]){
+                        answer++;
+                        idx++;
+                        dq.pop();
+                    } else {
+                        break;
+                    }
+                }
+                dq.push(i);
             }
         }
         
-        while(!stack.isEmpty()){
-            if(order[idx] == stack.peek()){
-                stack.pop();
+        while(!dq.isEmpty()){
+            if(dq.peek() == order[idx]){
                 answer++;
                 idx++;
+                dq.pop();
             } else {
                 break;
             }
