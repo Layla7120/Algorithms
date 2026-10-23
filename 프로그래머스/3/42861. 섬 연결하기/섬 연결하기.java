@@ -40,7 +40,7 @@ class Solution {
     public static void union(int a, int b){
         int parent_a = find(a);
         int parent_b = find(b);
-        if(a <= b) parent[parent_b] = parent_a;
+        if(parent_a <= parent_b) parent[parent_b] = parent_a;
         else parent[parent_a] = parent_b;
     }
     
