@@ -4,10 +4,10 @@ class Solution {
     static int[] parent;
     public int solution(int n, int[][] costs) {
         int answer = 0;
+        int count = 0;
+        parent = new int[n];
         
-        parent = new int[n+1];
-        
-        for(int i=1; i<=n; i++){
+        for(int i=0; i<n; i++){
             parent[i] = i;
         }
         
@@ -20,6 +20,7 @@ class Solution {
         }
         
         while(!pq.isEmpty()){
+            if(count == n-1) break;
             int[] arr = pq.poll();
             
             int a = arr[0];
@@ -29,6 +30,7 @@ class Solution {
             if(find(a) == find(b)) continue;
             
             answer += cost;
+            count += 1;
             union(a, b);
         }
         
