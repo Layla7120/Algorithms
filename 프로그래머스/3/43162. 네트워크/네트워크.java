@@ -4,6 +4,7 @@ class Solution {
     static int[] parent;
     public int solution(int n, int[][] computers) {
         parent = new int[n];
+        int answer = n;
         
         for(int i=0; i<n; i++){
             parent[i] = i;
@@ -12,29 +13,26 @@ class Solution {
         
         for(int i=0; i<computers.length; i++){
             for(int j=0; j<n; j++){
-                if(computers[i][j] == 1){
-                    union(i, j);
+                if(computers[i][j] == 1 && union(i, j)){
+                    answer--;
                 }
             }
         }
         
-        
-        Set<Integer> s = new HashSet();
-        for(int i=0; i<parent.length; i++){
-            s.add(find(i));
-        }
-        
-        return s.size();
+        return answer;
     }
     
-    public static void union(int a, int b){
+    public static boolean union(int a, int b){
         int p_a = find(a);
         int p_b = find(b);
         
+        if(p_a == p_b) return false;
         if(p_a != p_b){
             if(p_a <= p_b) parent[p_b] = p_a;
             else parent[p_a] = p_b;
         }
+        
+        return true;
     }
     
     public static int find(int a){
