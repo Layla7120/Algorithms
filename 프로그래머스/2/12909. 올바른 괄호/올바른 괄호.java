@@ -1,22 +1,26 @@
+import java.util.*;
+
 class Solution {
     boolean solution(String s) {
         
-        int count = 0;
+        ArrayDeque<String> dq = new ArrayDeque<>();
         for(int i=0; i<s.length(); i++){
-            
-            if(s.charAt(i) == '(')
-                count++;
-            if(s.charAt(i) == ')'){
-                if(count > 0)
-                    count--;
+            String c = s.charAt(i)+"";
+            if(dq.isEmpty()){
+                if(c.equals("("))
+                    dq.push(c);
                 else
                     return false;
+            } else {
+                if(dq.peek().equals(c)){
+                    dq.push(c);
+                } else{
+                    dq.pop();
+                }
             }
         }
-        
-        if(count > 0)
-            return false;
-        
-        return true;
+        if(dq.isEmpty())
+            return true;
+        return false;
     }
 }
